@@ -26,7 +26,7 @@
     background-color: #5F6290;
 }
 
-.balance-currency, .name {
+.balances, .name {
     display: flex;
 }
 
@@ -34,7 +34,7 @@
     align-items: center;
 }
 
-.balance-currency {
+.balances {
     flex-direction: column;
     align-items: flex-end;
 }

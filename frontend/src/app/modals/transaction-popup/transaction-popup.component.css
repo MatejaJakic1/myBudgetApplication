@@ -1,5 +1,10 @@
+.modal-content{
+    background-color: #6988BB;
+}
+
 .modal-header {
     padding-left: 40px;
+    border-bottom: 2px solid #5F6290;
 }
 
 .modal-body {
@@ -12,36 +17,45 @@ form {
     align-items: left;
 }
 
-.input-style-1  {
+.transaction-input-1  {
     display: flex;
 }
 
-.input-style-1 label {
+.transaction-input-1 label {
     width: 25%;
 }
 
-.input-style-1 input {
+.transaction-input-1 input {
     width: 75%;
 }
 
 select {
     width: max-content;
+    background-color: #5F6290;
+    color: white;
+    border: none;
 }
 
-label[for="account"]{
+input, select {
+    border-radius: 5px;
+}
+
+
+label[for="account"] {
     width: 50%;
 }
 
-label[for="amount"]{
+label[for="amount"] {
     width: 35%;
 }
-.input-style-2 {
+
+.transaction-input-2 {
     display: grid;
     grid-template-columns: 50% 5% 45%;
     margin-top: 0;
 }
 
-.input-style-2 div input {
+.transaction-input-2 div input {
     width: 65%;
 }
 
@@ -49,6 +63,7 @@ label[for="amount"]{
     display: flex;
     justify-content: right;
 }
+
 .buttons button {
     margin-left: 5%;
 }

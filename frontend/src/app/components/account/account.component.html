@@ -1,14 +1,16 @@
 <div class="app-accounts">
     <div class="accounts">
-        @for (account of accounts; track $index) {
-            <div class="account">
-                <div class="name">{{account.name}}</div>
-                <div class="balance-currency">
-                    <div class="default-balance">{{account.default_balance}} {{account.default_currency.toUpperCase()}}</div>
-                    <div class="balance">{{account.balance}} {{account.currency.toUpperCase()}}</div>
+        <div class="account" *ngFor="let account of accounts; let i = index;">
+            <div class="name">{{ account.name }}</div>
+            <div class="balances">
+                <div class="default-balance">
+                    {{ account.default_balance }} {{ account.default_currency.toUpperCase() }}
+                </div>
+                <div class="balance" *ngIf="account.default_currency !== account.currency">
+                    {{ account.balance }} {{ account.currency.toUpperCase() }}
                 </div>
             </div>
-        }
+        </div>
         <app-account-popup></app-account-popup>
     </div>
     <app-first-footer></app-first-footer>

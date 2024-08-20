@@ -1,23 +1,25 @@
 <div class="app-transactions">
-    <div class="tr-all-accounts">
+    <div class="transactions-body">
         <div></div>
-            <div class="transactions">
-                @for (transaction of transactions; track $index) {
-                    <div class="transaction">
-                        <div>
-                            <div class="tr-name">{{transaction.description}}</div>
-                            <div class="tr-account">{{transaction.accountName}}</div>
-                        </div>
-                        <div class="balance-currency">
-                            <div class="default-balance">{{transaction.default_amount}} {{transaction.default_currency.toUpperCase()}}</div>
-                            <div class="balance">{{transaction.amount}} {{transaction.currency.toUpperCase()}}</div>
-                        </div>
+        <div class="transactions">
+            <div class="transaction" *ngFor="let transaction of transactions; let i = index;">
+                <div>
+                    <div class="description">{{ transaction.description }}</div>
+                    <div class="account-name">{{ transaction.account_name }}</div>
+                </div>
+                <div class="balances">
+                    <div class="default-balance">
+                        {{ transaction.default_balance }} {{ transaction.default_currency.toUpperCase() }}
                     </div>
-                }
-            </div>    
+                    <div class="balance" *ngIf="transaction.default_currency !== transaction.currency">
+                        {{ transaction.balance }} {{ transaction.currency.toUpperCase() }}
+                    </div>
+                </div>
+            </div>
+        </div>    
         <select class="btn btn-dark" (change)="onAccountSelected($event)">
             <option (click)="getTransactions()">All accounts</option>
-            <option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option>
+            <option *ngFor="let account of accounts" [value]="account.name">{{ account.name }}</option>
         </select>
     </div>
     <app-first-footer></app-first-footer>

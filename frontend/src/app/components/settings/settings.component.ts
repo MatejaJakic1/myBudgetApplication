@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { SecondFooterComponent } from "../../footers/second-footer/second-footer.component";
-import { CurrencyService } from '../../currency.service';
+import { CurrencyService } from '../../services/currency.service';
 import { Exchange } from '../../models/Exchange';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Currency } from '../../models/Currency';
 import { FormsModule } from '@angular/forms';
 import { Account } from '../../models/Account';
-import { AccountService } from '../../account.service';
-import { TransactionService } from '../../transaction.service';
+import { AccountService } from '../../services/account.service';
+import { TransactionService } from '../../services/transaction.service';
 import { Transaction } from '../../models/Transaction';
 
 @Component({
@@ -21,62 +21,71 @@ import { Transaction } from '../../models/Transaction';
 export class SettingsComponent implements OnInit{
 
   constructor(private currencyService: CurrencyService, private accountService: AccountService, private transactionService: TransactionService){}
+
   exchange : Exchange;
-  exchangeTrans : Exchange;
+  exchange_trans : Exchange;
   currencies : Currency;
+  selected_currency : string = 'eur';
   accounts: Account[];
   transactions: Transaction[];
-  selectedCurrency : string = 'eur';
+  formattedDate : string;
 
   ngOnInit(): void {
       this.currencyService.getCurrencies().subscribe(data => {
         this.currencies = data; 
         const storedCurrencyCode = localStorage.getItem('currencyCode') || 'eur';
-        this.selectedCurrency = storedCurrencyCode;
-        this.loadExchange(storedCurrencyCode);;});
+        this.selected_currency = storedCurrencyCode;
+        this.currencyService.getExchangeJSON(storedCurrencyCode).subscribe(data => {this.exchange = data;
+          const date = new Date(this.exchange.date); 
+          this.formatDate(date); 
+        }) 
+      });
   }
 
-  private loadExchange(currencyCode: string) : void {
-      this.updateDefaultCurrencyAccount(currencyCode);
-      this.updateDefaultCurrencyTransaction(currencyCode);
-      localStorage.setItem('currencyCode', currencyCode);
+  private loadExchange(currency_code: string) : void {
+      localStorage.setItem('currencyCode', currency_code);
+      this.updateDefaultCurrencyAccount(currency_code);
+      this.updateDefaultCurrencyTransaction(currency_code);
   }
 
-  private formatDate(){
-    const date = new Date(this.exchange.date);
+  private formatDate(date: Date){
     const day = String(date.getDate()).padStart(2, '0');
     const month = String(date.getMonth() + 1).padStart(2, '0');
     const year = date.getFullYear();
-    this.exchange.date = `${day}.${month}.${year}.`;
+    this.formattedDate =`${day}.${month}.${year}.`
   }
 
-  onCurrencySelected(selectedCurrency: string): void {
-    this.loadExchange(selectedCurrency);
+  onCurrencySelected(selected_currency: string): void {
+    this.currencyService.getExchangeJSON(selected_currency).subscribe(data => {this.exchange = data; 
+      const date = new Date(this.exchange.date); 
+      this.formatDate(date); 
+      this.loadExchange(selected_currency);
+  });
   }
 
-  private updateDefaultCurrencyAccount(currencyCode: string){
+  private updateDefaultCurrencyAccount(currency_code: string){
     this.accountService.getAccountsList().subscribe(data => {
       this.accounts = data;
-      this.currencyService.setCurrencyCode(currencyCode);
+      this.currencyService.setCurrencyCode(currency_code);
       for(const account of this.accounts){
         this.currencyService.getExchangeJSON(account.currency).subscribe(data => {
         this.exchange = data;
-        this.formatDate();
-        account.default_balance = account.balance * this.exchange[account.currency][currencyCode];
-        account.default_currency = currencyCode;
-        this.accountService.updateDefault(account).subscribe();
-        })}
+        account.default_balance = account.balance * this.exchange[account.currency][currency_code];
+        account.default_currency = currency_code;
+        this.accountService.updateDefaultBalance(account).subscribe();
+        })
+      }
     });
   }
   
-  private updateDefaultCurrencyTransaction(currencyCode: string){
-    this.transactionService.getTransactionsList().subscribe(data => 
-      {this.transactions = data;
+  private updateDefaultCurrencyTransaction(currency_code: string){
+    this.transactionService.getTransactionsList().subscribe(data => {
+      this.transactions = data;
         for(const transaction of this.transactions){
           this.currencyService.getExchangeJSON(transaction.currency.toLowerCase()).subscribe(data => {
-            this.exchangeTrans = data;
-            transaction.default_amount = transaction.amount * this.exchangeTrans[transaction.currency.toLowerCase()][currencyCode];
-            transaction.default_currency = currencyCode;
+            this.exchange_trans = data;
+            transaction.default_balance = transaction.balance * this.exchange_trans[transaction.currency][currency_code];
+            transaction.default_currency = currency_code;
             this.transactionService.updateDefaultTransaction(transaction).subscribe();
           })
         }

@@ -5,7 +5,7 @@
     padding: 0;
 }
 
-.tr-all-accounts {
+.transactions-body {
     padding: 0 10px;
     display: grid;
     grid-template-columns: 15% 70% 1fr;
@@ -13,6 +13,11 @@
     overflow-x: hidden;
 }
 
+.transactions-body select {
+    height: fit-content;
+    margin-left: 20px;
+    width: fit-content;
+}
 
 .transaction {
     display: flex;
@@ -28,16 +33,11 @@
     background-color: #5F6290;
 }
 
-.tr-all-accounts select {
-    height: fit-content;
-    margin-left: 20px;
-    width: fit-content;
-}
 
-.tr-account{
+.account-name{
     font-size: 14px;
 }
-.balance-currency {
+.balances {
     flex-direction: column;
     justify-content: center;
     align-items: center;

@@ -30,7 +30,7 @@ public class Account {
     private String default_currency;
 
     @Column(name = "balance")
-    private int balance;
+    private float balance;
 
     @Column(name = "default_balance")
     private float default_balance;

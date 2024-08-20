@@ -4,45 +4,43 @@ import { AccountPopupComponent } from "../../modals/account-popup/account-popup.
 import { FirstFooterComponent } from "../../footers/first-footer/first-footer.component";
 import { TransactionPopupComponent } from "../../modals/transaction-popup/transaction-popup.component";
 import { TransactionComponent } from "../transaction/transaction.component";
-import { AccountService } from '../../account.service';
-import { Currency } from '../../models/Currency';
+import { AccountService } from '../../services/account.service';
 import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
-import { CurrencyService } from '../../currency.service';
+import { CurrencyService } from '../../services/currency.service';
 import { Exchange } from '../../models/Exchange';
-import { BalanceService } from '../../balance.service';
-import { RefreshService } from '../../refresh.service';
-
+import { RefreshService } from '../../services/refresh.service';
+import { NgFor } from '@angular/common';
+import { ChangeDetectorRef } from '@angular/core';
 
 @Component({
   selector: 'app-account',
   standalone: true,
-  imports: [AccountPopupComponent, FirstFooterComponent, TransactionPopupComponent, TransactionComponent, NgIf, CommonModule],
+  imports: [AccountPopupComponent, FirstFooterComponent, TransactionPopupComponent, TransactionComponent, NgIf, CommonModule, NgFor,],
   templateUrl: './account.component.html',
   styleUrl: './account.component.css'
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService){}
+  constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService, private cdr: ChangeDetectorRef){}
+  
 
   accounts : Account[] = [];
-  currencies : Currency = {};
   exchange : Exchange;
-  selectedCurrency : string;
+  selected_currency : string;
 
   ngOnInit(): void {
-    this.refreshService.refresh$.subscribe(() => {
-      this.getAccounts();
+    this.refreshService.refresh$.subscribe(() => { this.getAccounts(); });
+    this.currencyService.getCurrencyCode().subscribe(currencyCode => {
+      this.selected_currency = currencyCode; 
+      this.getAccounts()
     });
-    this.currencyService.getExchange().subscribe(exchange => {
-      this.currencyService.getCurrencyCode().subscribe(currencyCode => {this.selectedCurrency = currencyCode})
-      this.currencyService.getExchangeJSON(this.selectedCurrency).subscribe(data =>{this.exchange = data; this.getAccounts();});  
-    })
   }
+
 
   private getAccounts(){
     this.accountService.getAccountsList().subscribe(data => {
-      this.accounts = data;})
+      this.accounts = data;
+    })
   }
-
 }

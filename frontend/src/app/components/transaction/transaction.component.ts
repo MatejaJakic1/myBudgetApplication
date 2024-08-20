@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 import { Transaction } from '../../models/Transaction';
 import { FirstFooterComponent } from "../../footers/first-footer/first-footer.component";
-import { TransactionService } from '../../transaction.service';
+import { TransactionService } from '../../services/transaction.service';
 import { Account } from '../../models/Account';
-import { AccountService } from '../../account.service';
+import { AccountService } from '../../services/account.service';
 import { NgFor } from '@angular/common';
-import { RefreshService } from '../../refresh.service';
+import { RefreshService } from '../../services/refresh.service';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-transaction',
   standalone: true,
-  imports: [FirstFooterComponent, NgFor],
+  imports: [FirstFooterComponent, NgFor, NgIf],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css'
 })
@@ -27,12 +28,16 @@ export class TransactionComponent implements OnInit {
 
   transactions : Transaction[] = [];
   accounts : Account[] = [];
-  allTransactions : Transaction[] = [];
+  transactions_temp : Transaction[] = [];
 
 
   getTransactions(){
-    this.transactionService.getTransactionsList().subscribe(data => { this.transactions = data; this.allTransactions = this.transactions;})
+    this.transactionService.getTransactionsList().subscribe(data => { 
+      this.transactions = data; 
+      this.transactions_temp = this.transactions;
+    })
   }
+  
   private getAccounts(){
     this.accountService.getAccountsList().subscribe(data => {this.accounts = data;})
   }
@@ -40,8 +45,8 @@ export class TransactionComponent implements OnInit {
   onAccountSelected(event: Event): void {
     this.transactions = [];
     const selectedAccountName = (event.target as HTMLSelectElement).value;
-    for(const transaction of this.allTransactions){
-      if(transaction.accountName == selectedAccountName){
+    for(const transaction of this.transactions_temp){
+      if(transaction.account_name == selectedAccountName){
         this.transactions.push(transaction);
       }
     }

@@ -2,11 +2,8 @@ package com.postgresql.mybudget.service;
 
 import java.util.List;
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.postgresql.mybudget.entity.Account;
 import com.postgresql.mybudget.entity.Transaction;
 import com.postgresql.mybudget.repo.TransactionRepository;
 
@@ -30,7 +27,7 @@ public class TransactionService {
         if (optionalOldTransaction.isPresent()) {
             Transaction oldTransaction = optionalOldTransaction.get();
             oldTransaction.setDefault_currency(transaction.getDefault_currency());
-            oldTransaction.setDefault_amount(transaction.getDefault_amount());
+            oldTransaction.setDefault_balance(transaction.getDefault_balance());
             transactionRepository.save(oldTransaction);
             return oldTransaction;
         }  

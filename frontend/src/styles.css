@@ -4,7 +4,7 @@
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
 }
 
-body{
+body {
     background-color: #202233;
     color: black;
 }
@@ -15,7 +15,7 @@ body{
     width: 70vw;
     min-width: 600px;
     max-width: 1200px;
-    min-height: 520px;
+    min-height: 500px;
     height: 100%;
     background-color: #7377AE;
 }

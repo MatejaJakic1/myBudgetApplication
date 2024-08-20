@@ -1,13 +1,14 @@
 import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Account } from '../../models/Account';
-import { AccountService } from '../../account.service';
+import { AccountService } from '../../services/account.service';
 import { Currency } from '../../models/Currency';
 import { KeyValuePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Exchange } from '../../models/Exchange';
-import { CurrencyService } from '../../currency.service';
-import { RefreshService } from '../../refresh.service';
+import { CurrencyService } from '../../services/currency.service';
+import { RefreshService } from '../../services/refresh.service';
+import { map, Observable } from 'rxjs';
 
 @Component({
   selector: 'app-account-popup',
@@ -27,37 +28,76 @@ export class AccountPopupComponent implements OnInit{
     }
 
     currencies: Currency = {}
-    account : Account;
-    inputId : number;
-    inputAccount : string;
-    inputCurrency : string = "eur";
-    defaultCurrency : string; 
-    inputBalance : number;
-    defaultBalance : number;
-    currencyKey : string;
+    currency_key : string;
     exchange : Exchange;
+    
+    account : Account;
+    accounts : Account[] = [];
+
+    input_id : number;
+    input_name : string;
+    input_currency : string = "eur";
+    default_currency : string; 
+    input_balance : number;
+    default_balance : number;
+  
+  
 
 
     createAccount() {
       this.currencyService.getCurrencyCode().subscribe(currencyCode => {
-        this.defaultCurrency = currencyCode;
-        this.currencyService.getExchangeJSON(this.defaultCurrency).subscribe(data => {
+        this.default_currency = currencyCode;
+        this.currencyService.getExchangeJSON(this.default_currency).subscribe(data => {
           this.exchange = data;
-          this.defaultBalance =  this.inputBalance /  this.exchange[this.defaultCurrency][this.inputCurrency.toLowerCase()];
-          this.account = { id: this.inputId, name: this.inputAccount, currency: this.inputCurrency, default_currency: this.defaultCurrency, balance: this.inputBalance, default_balance: this.defaultBalance };
-          this.saveAccount(); 
-        })
-
+          this.checkIfNameExists(this.input_name).subscribe(nameExists => {
+            if (this.input_balance != null && !nameExists) {
+              this.default_balance = this.input_balance / this.exchange[this.default_currency][this.input_currency];
+              this.account = { id: this.input_id, name: this.input_name, currency: this.input_currency, default_currency: this.default_currency, balance: this.input_balance, default_balance: this.default_balance };
+              this.saveAccount();
+            } else {
+              this.clearAllInputs();
+              console.log("Account can't be created because the username already exists");
+            }
+          });
+        });
       });
     }
 
     saveAccount() {
-      this.accountService.createAccount(this.account).subscribe(data => { console.log(data); this.refreshService.triggerRefresh(); });
+      this.accountService.createAccount(this.account).subscribe(data => {
+        this.clearAllInputs();
+        this.refreshService.triggerRefresh(); 
+      });
+    }
+
+    checkIfNameExists(account_name: string): Observable<boolean> {
+      return this.accountService.getAccountsList().pipe(
+        map((accounts: Account[]) => {
+          this.accounts = accounts;
+          if (this.accounts.length > 0) {
+            for (const account of this.accounts) {
+              if (account_name === account.name) {
+                return true;
+              }
+            }
+          }
+          return false;
+        })
+      );
     }
 
 
     private getCurrrencies(){
       this.currencyService.getCurrencies().subscribe(data => {this.currencies = data});
+    }
+
+    private clearAllInputs(){
+      this.input_id = null;
+      this.input_name = '';
+      this.input_currency = 'eur';
+      this.input_balance = null;
+      this.account = null;
+      this.default_balance = null;
     }
 
 

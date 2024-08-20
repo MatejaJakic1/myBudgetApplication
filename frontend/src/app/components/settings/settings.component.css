@@ -8,7 +8,7 @@
     height: auto;
     margin: 0 auto;
 }
-.default, .exchange, .delete {
+.default-currency, .date, .delete-all {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,11 +18,16 @@
     padding-left: 10px;
 }
 
-.exchange div, .default div{
+.date div, .default-currency div{
     margin: 0;
 }
 
-.delete {
+.delete-all {
     background-color: #5F6290;
+}
+
+.delete-link:hover {
+    color: white;
+    cursor: pointer;
 }
 

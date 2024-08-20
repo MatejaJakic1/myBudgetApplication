@@ -20,8 +20,8 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "accountName")
-    private String accountName;
+    @Column(name = "account_name")
+    private String account_name;
 
     @Column(name = "description")
     private String description;
@@ -29,11 +29,11 @@ public class Transaction {
     @Column(name = "default_currency")
     private String default_currency;
 
-    @Column(name = "default_amount")
-    private float default_amount;
+    @Column(name = "default_balance")
+    private float default_balance;
 
-    @Column(name = "amount")
-    private float amount;
+    @Column(name = "balance")
+    private float balance;
 
     @Column(name = "currency")
     private String currency;
