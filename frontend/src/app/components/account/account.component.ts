@@ -11,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import { CurrencyService } from '../../currency.service';
 import { Exchange } from '../../models/Exchange';
 import { BalanceService } from '../../balance.service';
+import { RefreshService } from '../../refresh.service';
 
 
 @Component({
@@ -22,7 +23,7 @@ import { BalanceService } from '../../balance.service';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private currencyService: CurrencyService){}
+  constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService){}
 
   accounts : Account[] = [];
   currencies : Currency = {};
@@ -30,6 +31,9 @@ export class AccountComponent implements OnInit {
   selectedCurrency : string;
 
   ngOnInit(): void {
+    this.refreshService.refresh$.subscribe(() => {
+      this.getAccounts();
+    });
     this.currencyService.getExchange().subscribe(exchange => {
       this.currencyService.getCurrencyCode().subscribe(currencyCode => {this.selectedCurrency = currencyCode})
       this.currencyService.getExchangeJSON(this.selectedCurrency).subscribe(data =>{this.exchange = data; this.getAccounts();});  

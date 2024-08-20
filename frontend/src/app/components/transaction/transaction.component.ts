@@ -5,6 +5,7 @@ import { TransactionService } from '../../transaction.service';
 import { Account } from '../../models/Account';
 import { AccountService } from '../../account.service';
 import { NgFor } from '@angular/common';
+import { RefreshService } from '../../refresh.service';
 
 @Component({
   selector: 'app-transaction',
@@ -15,8 +16,11 @@ import { NgFor } from '@angular/common';
 })
 export class TransactionComponent implements OnInit {
 
-  constructor(private transactionService: TransactionService, private accountService: AccountService){}
+  constructor(private transactionService: TransactionService, private accountService: AccountService, private refreshService : RefreshService){}
   ngOnInit(): void {
+    this.refreshService.refresh$.subscribe(() => {
+      this.getTransactions();
+    });
     this.getTransactions();
     this.getAccounts();
   }

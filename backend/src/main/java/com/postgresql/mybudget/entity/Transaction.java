@@ -26,6 +26,12 @@ public class Transaction {
     @Column(name = "description")
     private String description;
 
+    @Column(name = "default_currency")
+    private String default_currency;
+
+    @Column(name = "default_amount")
+    private float default_amount;
+
     @Column(name = "amount")
     private float amount;
 

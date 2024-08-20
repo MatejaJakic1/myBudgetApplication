@@ -4,8 +4,8 @@
             <div class="account">
                 <div class="name">{{account.name}}</div>
                 <div class="balance-currency">
-                    <div class="default-balance">{{account.default_balance}} {{account.default_currency}}</div>
-                    <div class="balance" *ngIf="account.currency !== 'EUR'">{{account.balance}} {{account.currency.toUpperCase()}}</div>
+                    <div class="default-balance">{{account.default_balance}} {{account.default_currency.toUpperCase()}}</div>
+                    <div class="balance">{{account.balance}} {{account.currency.toUpperCase()}}</div>
                 </div>
             </div>
         }

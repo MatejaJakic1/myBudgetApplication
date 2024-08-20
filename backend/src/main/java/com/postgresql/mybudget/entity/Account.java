@@ -26,6 +26,9 @@ public class Account {
     @Column(name = "account_currency")
     private String currency;
 
+    @Column(name = "default_currency")
+    private String default_currency;
+
     @Column(name = "balance")
     private int balance;
 

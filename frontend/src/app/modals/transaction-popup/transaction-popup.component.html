@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#transactionModal">
+<button type="button" class="btn btn-dark" data-bs-toggle="modal" data-bs-target="#transactionModal">
     New transaction
   </button>
   
@@ -12,9 +12,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form (submit)="createTransaction()">
+          <form (submit)="createTransaction()" #myForm="ngForm">
             <div class="input-style-1">
-              <label for="description">Description: </label><input id="description" [(ngModel)]="inputDescription" placeholder="Description of transaction..." type="text" name="description">
+              <label for="description">Description: </label><input id="description" [(ngModel)]="inputDescription" placeholder="Description of transaction..." type="text" name="description" required>
             </div>
             <div class="input-style-1">
               <label for="type">Type: </label>
@@ -25,17 +25,17 @@
             </div>
             <div class="input-style-2">
               <div>
-                <label for="account">Account: </label><select id="account" name="account" [(ngModel)]="inputAccount"><option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option></select>
+                <label for="account">Account: </label><select id="account" name="account" [(ngModel)]="inputAccount"  required><option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option></select>
               </div>
               <div>
               </div>
               <div>
-                <label for="amount">Amount: </label><input id="amount" type="text" name="amount" [(ngModel)]="inputTransaction" placeholder="0 EUR">
+                <label for="amount">Amount: </label><input id="amount" type="text" name="amount" [(ngModel)]="inputAmount" [placeholder]="defaultPlaceholder" required>
               </div>
             </div>
             <div class="buttons">
               <button type="button" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" data-bs-dismiss="modal">Create Transaction</button>
+              <button type="submit" [disabled]="myForm.invalid" data-bs-dismiss="modal">Create Transaction</button>
             </div>
           </form>
         </div>

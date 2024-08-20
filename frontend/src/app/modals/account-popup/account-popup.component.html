@@ -1,5 +1,5 @@
 <!-- Button trigger modal -->
-<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#accountModal">
+<button type="button" class="btn btn-dark new-account" data-bs-toggle="modal" data-bs-target="#accountModal">
     New account
   </button>
   
@@ -12,9 +12,9 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form (submit)="createAccount()">
+          <form (submit)="createAccount()" #myForm="ngForm">
             <div class="input-style-1">
-              <label for="name">Name: </label><input id="name" type="text" name="name" [(ngModel)]="inputAccount" placeholder=" Account name...">
+              <label for="name">Name: </label><input id="name" type="text" name="name" [(ngModel)]="inputAccount" placeholder=" Account name..." required>
             </div>
             <div class="input-style-1">
               <label for="currency">Currency: </label>
@@ -23,11 +23,11 @@
               </select>
             </div>
             <div class="input-style-1">
-              <label for="balance">Balance: </label><input id="balance" type="text" name="balance" placeholder="0 {{inputCurrency.toUpperCase()}}" [(ngModel)]="inputBalance">
+              <label for="balance">Balance: </label><input id="balance" type="text" name="balance" placeholder="0 {{inputCurrency.toUpperCase()}}" [(ngModel)]="inputBalance" required>
             </div>
             <div class="buttons">
               <button type="button" data-bs-dismiss="modal">Cancel</button>
-              <button type="submit" data-bs-dismiss="modal">Create Account</button>
+              <button type="submit" [disabled]="myForm.invalid" data-bs-dismiss="modal">Create Account</button>
             </div>
           </form>
         </div>

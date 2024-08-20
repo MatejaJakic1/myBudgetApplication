@@ -19,16 +19,20 @@ export class FirstFooterComponent implements OnInit{
   defaultCurrency: string;
 
   ngOnInit(): void {
-    this.getBalanceSum();
-    this.getDefaultCurrency();
+    this.getCurrencyAndBalance();
   }
  
-  private getBalanceSum(){
-    this.balanceService.getBalance().subscribe((balance: number) => { this.balance = balance;});
+  private getCurrencyAndBalance() {
+    this.currencyService.getCurrencyCode().subscribe(data => {
+      this.defaultCurrency = data;
+      this.getBalanceSum();
+    });
   }
-
-  private getDefaultCurrency(){
-    this.currencyService.getCurrencyCode().subscribe(data => {this.defaultCurrency = data});
+  
+  private getBalanceSum() {
+    this.balanceService.getBalance().subscribe((balance: number) => {
+      this.balance = balance;
+    });
   }
 
 

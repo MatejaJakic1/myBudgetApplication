@@ -7,6 +7,7 @@ import { KeyValuePipe } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { Exchange } from '../../models/Exchange';
 import { CurrencyService } from '../../currency.service';
+import { RefreshService } from '../../refresh.service';
 
 @Component({
   selector: 'app-account-popup',
@@ -17,10 +18,11 @@ import { CurrencyService } from '../../currency.service';
 })
 export class AccountPopupComponent implements OnInit{
 
-    constructor(private accountService: AccountService, private currencyService: CurrencyService){}
+    constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService){}
+
+    @Output() modalClosed: EventEmitter<string> = new EventEmitter<string>();
 
     ngOnInit(): void {
-      this.getExchange();
       this.getCurrrencies();
     }
 
@@ -39,29 +41,24 @@ export class AccountPopupComponent implements OnInit{
     createAccount() {
       this.currencyService.getCurrencyCode().subscribe(currencyCode => {
         this.defaultCurrency = currencyCode;
-        this.currencyKey = Object.keys(this.exchange).find(key => key !== 'date');
-        this.defaultBalance =  this.inputBalance /  this.exchange[this.currencyKey][this.inputCurrency.toLowerCase()];
-        this.account = { id: this.inputId, name: this.inputAccount, currency: this.inputCurrency, default_currency: this.defaultCurrency, balance: this.inputBalance, default_balance: this.defaultBalance };
-        this.saveAccount();
+        this.currencyService.getExchangeJSON(this.defaultCurrency).subscribe(data => {
+          this.exchange = data;
+          this.defaultBalance =  this.inputBalance /  this.exchange[this.defaultCurrency][this.inputCurrency.toLowerCase()];
+          this.account = { id: this.inputId, name: this.inputAccount, currency: this.inputCurrency, default_currency: this.defaultCurrency, balance: this.inputBalance, default_balance: this.defaultBalance };
+          this.saveAccount(); 
+        })
+
       });
     }
 
     saveAccount() {
-      this.accountService.createAccount(this.account).subscribe(data => { console.log(data); });
+      this.accountService.createAccount(this.account).subscribe(data => { console.log(data); this.refreshService.triggerRefresh(); });
     }
 
-
-    private getExchange() {
-      this.currencyService.getExchange().subscribe(exchange => {
-        if (exchange) {
-          this.exchange = exchange;
-        } else {
-          this.currencyService.getExchangeJSON('eur').subscribe(data => { this.exchange = data; });
-        }
-      });
-    }
 
     private getCurrrencies(){
       this.currencyService.getCurrencies().subscribe(data => {this.currencies = data});
     }
+
+
 }

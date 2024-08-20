@@ -8,14 +8,14 @@
                             <div class="tr-name">{{transaction.description}}</div>
                             <div class="tr-account">{{transaction.accountName}}</div>
                         </div>
-                        <div class="balance">
-                            <div class="tr-amount">{{transaction.amount}} {{transaction.currency}}</div>
-                            <div class="tr-currency"></div>
+                        <div class="balance-currency">
+                            <div class="default-balance">{{transaction.default_amount}} {{transaction.default_currency.toUpperCase()}}</div>
+                            <div class="balance">{{transaction.amount}} {{transaction.currency.toUpperCase()}}</div>
                         </div>
                     </div>
                 }
             </div>    
-        <select (change)="onAccountSelected($event)">
+        <select class="btn btn-dark" (change)="onAccountSelected($event)">
             <option (click)="getTransactions()">All accounts</option>
             <option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option>
         </select>

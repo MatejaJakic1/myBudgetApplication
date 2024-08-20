@@ -3,12 +3,12 @@
         <div class="default">
             <div>Default currency</div>
             <div>
-                <select [(ngModel)]="selectedCurrency" (ngModelChange)="onCurrencySelected($event)">
+                <select [(ngModel)]="selectedCurrency" (ngModelChange)="onCurrencySelected($event)" class="btn btn-dark">
                     <option *ngFor="let currency of currencies | keyvalue" [value]="currency.key">{{currency.value}} ({{currency.key.toUpperCase()}}) </option>
                 </select>
             </div>
         </div>
-        <div class="delete">Delete all data</div>
+        <div class="delete" (click)="deleteAllData()">Delete all data</div>
         <div class="exchange">
             <div>Exchange rate updated</div>
             <div *ngIf="this.exchange">{{this.exchange.date}}</div>

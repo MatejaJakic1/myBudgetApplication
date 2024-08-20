@@ -9,9 +9,14 @@ header {
 
 nav a {
     padding-left: 15px;
+    text-decoration: none;
+    color: black;
 }
 
 hr {
-    border: 2px solid black;
+    border: 2px solid #202233;;
 }
 
+nav a:focus {
+    color: white;
+}

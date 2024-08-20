@@ -8,6 +8,8 @@ import { Transaction } from './models/Transaction';
 })
 export class TransactionService {
   private baseUrl = "http://localhost:8080/api/v1/transactions";
+  private updateURL = "http://localhost:8080/api/v1/updatetransactions"
+  private deleteURL = "http://localhost:8080/api/v1/deletetransactions"
 
 
   constructor(private httpClient: HttpClient) { }
@@ -18,5 +20,13 @@ export class TransactionService {
   
   createTransaction(transaction: Transaction): Observable<Object>{
     return this.httpClient.post(`${this.baseUrl}`, transaction);
+  }
+
+  updateDefaultTransaction(transaction: Transaction): Observable<Object>{
+    return this.httpClient.put(`${this.updateURL}`, transaction)
+  }
+
+  deleteTransactions(): Observable<Object>{
+    return this.httpClient.delete(`${this.deleteURL}`)
   }
 }

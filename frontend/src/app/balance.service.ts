@@ -21,7 +21,7 @@ export class BalanceService {
         for (const account of accounts) {
           balance += account.default_balance;
         }
-        return balance;
+        return (Math.round(balance * 100) / 100);
       }));
 }
 

@@ -11,6 +11,7 @@ export class AccountService {
 
   private baseUrl = "http://localhost:8080/api/v1/accounts";
   private updateURL = "http://localhost:8080/api/v1/updateaccounts"
+  private deleteURL = "http://localhost:8080/api/v1/deleteaccounts"
 
 
   constructor(private httpClient: HttpClient) { }
@@ -31,4 +32,7 @@ export class AccountService {
     return this.httpClient.put(`${this.updateURL}`, account)
   }
 
+  deleteAccounts(): Observable<Object>{
+    return this.httpClient.delete(`${this.deleteURL}`)
+  }
 }
