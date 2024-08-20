@@ -5,17 +5,20 @@
                 @for (transaction of transactions; track $index) {
                     <div class="transaction">
                         <div>
-                            <div class="tr-name">{{transaction.name}}</div>
-                            <div class="tr-account">{{transaction.account}}</div>
+                            <div class="tr-name">{{transaction.description}}</div>
+                            <div class="tr-account">{{transaction.accountName}}</div>
                         </div>
-                        <div class="amount-currency">
-                            <div class="tr-amount">{{transaction.amount}}</div>
-                            <div class="tr-currency">{{transaction.currency}}</div>
+                        <div class="balance">
+                            <div class="tr-amount">{{transaction.amount}} {{transaction.currency}}</div>
+                            <div class="tr-currency"></div>
                         </div>
                     </div>
                 }
             </div>    
-        <select><option>All accounts</option></select>
+        <select (change)="onAccountSelected($event)">
+            <option (click)="getTransactions()">All accounts</option>
+            <option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option>
+        </select>
     </div>
     <app-first-footer></app-first-footer>
 </div>

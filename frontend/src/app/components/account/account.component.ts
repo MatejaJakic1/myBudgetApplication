@@ -10,6 +10,7 @@ import { NgIf } from '@angular/common';
 import { CommonModule } from '@angular/common';
 import { CurrencyService } from '../../currency.service';
 import { Exchange } from '../../models/Exchange';
+import { BalanceService } from '../../balance.service';
 
 
 @Component({
@@ -24,32 +25,20 @@ export class AccountComponent implements OnInit {
   constructor(private accountService: AccountService, private currencyService: CurrencyService){}
 
   accounts : Account[] = [];
-  balanceSum : number  = 0;
   currencies : Currency = {};
   exchange : Exchange;
   selectedCurrency : string;
 
   ngOnInit(): void {
-    this.currencyService.getExchange().subscribe(data => {this.exchange = data; this.getAccounts(); this.getCurrencies();  })
-   
+    this.currencyService.getExchange().subscribe(exchange => {
+      this.currencyService.getCurrencyCode().subscribe(currencyCode => {this.selectedCurrency = currencyCode})
+      this.currencyService.getExchangeJSON(this.selectedCurrency).subscribe(data =>{this.exchange = data; this.getAccounts();});  
+    })
   }
 
   private getAccounts(){
-    this.accountService.getAccountsList().subscribe(data => {this.accounts = data; for (const account of this.accounts) {
-       account.euros = this.calculateEuros(account);} this.getBalance();})
+    this.accountService.getAccountsList().subscribe(data => {
+      this.accounts = data;})
   }
 
-  private getCurrencies(){
-    this.currencyService.getCurrencies().subscribe(data => {this.currencies = data;})
-  }
-
-  private getBalance(){
-    for(const account of this.accounts){
-      this.balanceSum += account.euros;
-    }
-  }
-
-  calculateEuros(account : Account): number{
-    return this.currencyService.calculateEuros(account, this.exchange);
-  }
 }

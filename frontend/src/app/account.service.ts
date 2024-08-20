@@ -2,8 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { Account } from './models/Account';
-import { Currency } from './models/Currency';
-import { Exchange } from './models/Exchange';
+import { AccountTransaction } from './models/AccountTransaction';
 
 @Injectable({
   providedIn: 'root'
@@ -11,6 +10,7 @@ import { Exchange } from './models/Exchange';
 export class AccountService {
 
   private baseUrl = "http://localhost:8080/api/v1/accounts";
+  private updateURL = "http://localhost:8080/api/v1/updateaccounts"
 
 
   constructor(private httpClient: HttpClient) { }
@@ -21,6 +21,14 @@ export class AccountService {
   
   createAccount(account: Account): Observable<Object>{
     return this.httpClient.post(`${this.baseUrl}`, account);
+  }
+
+  updateAfterTransaction(accountTransaction: AccountTransaction): Observable<object>{
+    return this.httpClient.put(`${this.baseUrl}`, accountTransaction);
+  }
+
+  updateDefault(account: Account): Observable<Object>{
+    return this.httpClient.put(`${this.updateURL}`, account)
   }
 
 }

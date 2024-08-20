@@ -21,23 +21,29 @@ export class AccountPopupComponent implements OnInit{
 
     ngOnInit(): void {
       this.getExchange();
+      this.getCurrrencies();
     }
 
-    @Input()
     currencies: Currency = {}
-
     account : Account;
     inputId : number;
     inputAccount : string;
     inputCurrency : string = "eur";
+    defaultCurrency : string; 
     inputBalance : number;
-    inputEuros : number;
+    defaultBalance : number;
+    currencyKey : string;
     exchange : Exchange;
 
 
     createAccount() {
-      this.account = {id: this.inputId,name: this.inputAccount,currency: this.inputCurrency, balance: this.inputBalance, euros: this.inputEuros};
-      this.saveAccount();
+      this.currencyService.getCurrencyCode().subscribe(currencyCode => {
+        this.defaultCurrency = currencyCode;
+        this.currencyKey = Object.keys(this.exchange).find(key => key !== 'date');
+        this.defaultBalance =  this.inputBalance /  this.exchange[this.currencyKey][this.inputCurrency.toLowerCase()];
+        this.account = { id: this.inputId, name: this.inputAccount, currency: this.inputCurrency, default_currency: this.defaultCurrency, balance: this.inputBalance, default_balance: this.defaultBalance };
+        this.saveAccount();
+      });
     }
 
     saveAccount() {
@@ -45,8 +51,17 @@ export class AccountPopupComponent implements OnInit{
     }
 
 
-    private getExchange(){
-      this.currencyService.getExchange().subscribe(data => {this.exchange = data; })
-      
+    private getExchange() {
+      this.currencyService.getExchange().subscribe(exchange => {
+        if (exchange) {
+          this.exchange = exchange;
+        } else {
+          this.currencyService.getExchangeJSON('eur').subscribe(data => { this.exchange = data; });
+        }
+      });
+    }
+
+    private getCurrrencies(){
+      this.currencyService.getCurrencies().subscribe(data => {this.currencies = data});
     }
 }

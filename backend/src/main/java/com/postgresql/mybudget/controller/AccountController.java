@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.postgresql.mybudget.AccountTransaction;
 import com.postgresql.mybudget.entity.Account;
+import com.postgresql.mybudget.entity.Transaction;
 import com.postgresql.mybudget.service.AccountService;
 
 @CrossOrigin
@@ -38,6 +40,12 @@ public class AccountController {
     public List<Account> getAllAccounts(){
         return accountService.getAllAccounts();
     }
-
+     
+    @PutMapping("/accounts")
+    public Account updateAccount(@RequestBody AccountTransaction accountTransaction){
+        Account account = accountTransaction.getAccount();
+        Transaction transaction = accountTransaction.getTransaction();
+        return accountService.updateAccount(account, transaction);
+    }
     
 }

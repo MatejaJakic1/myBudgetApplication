@@ -28,4 +28,7 @@ public class Account {
 
     @Column(name = "balance")
     private int balance;
+
+    @Column(name = "default_balance")
+    private float default_balance;
 }

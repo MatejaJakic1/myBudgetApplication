@@ -1,4 +1,4 @@
 export interface Exchange {
     date: string;
-    eur: { [key: string]: number }; 
+    [key: string]: { [key: string]: number } | string;  
 }

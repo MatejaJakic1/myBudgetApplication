@@ -12,21 +12,25 @@
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
         <div class="modal-body">
-          <form>
+          <form (submit)="createTransaction()">
             <div class="input-style-1">
-              <label for="description">Description: </label><input id="description" type="text" name="description">
+              <label for="description">Description: </label><input id="description" [(ngModel)]="inputDescription" placeholder="Description of transaction..." type="text" name="description">
             </div>
             <div class="input-style-1">
-              <label for="type">Type: </label><select id="type" name="type"><option value="expense">Expense</option></select>
+              <label for="type">Type: </label>
+              <select id="type" name="type"  [(ngModel)]="inputType">
+                <option value="expense">Expense</option>
+                <option value="deposit">Deposit</option>
+              </select>
             </div>
             <div class="input-style-2">
               <div>
-                <label for="account">Account: </label><select id="account" name="account"><option value="account">Account 1</option></select>
+                <label for="account">Account: </label><select id="account" name="account" [(ngModel)]="inputAccount"><option *ngFor="let account of accounts" [value]="account.name">{{account.name}}</option></select>
               </div>
               <div>
               </div>
               <div>
-                <label for="amount">Amount: </label><input id="amount" type="text" name="amount" placeholder="0 EUR">
+                <label for="amount">Amount: </label><input id="amount" type="text" name="amount" [(ngModel)]="inputTransaction" placeholder="0 EUR">
               </div>
             </div>
             <div class="buttons">

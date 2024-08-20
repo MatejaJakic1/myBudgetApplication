@@ -1,6 +1,7 @@
 export class Transaction {
-    name: string;
-    account: string;
-    amount: string;
+    id: number;
+    accountName: string;
+    description: string;
+    amount: number;
     currency: string;
 }

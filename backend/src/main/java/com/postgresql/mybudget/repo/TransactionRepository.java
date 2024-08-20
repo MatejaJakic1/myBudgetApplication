@@ -6,6 +6,5 @@ import com.postgresql.mybudget.entity.Transaction;
 
 
 @Repository
-public interface TransactionRepository extends JpaRepository<Transaction, Integer>  {
-
+public interface TransactionRepository extends JpaRepository<Transaction, Integer>{
 }

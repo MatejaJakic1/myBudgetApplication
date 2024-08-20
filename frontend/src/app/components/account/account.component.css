@@ -18,5 +18,21 @@
 
 .balance-currency, .name {
     display: flex;
+}
+
+.name {
     align-items: center;
+}
+
+.balance-currency {
+    flex-direction: column;
+    align-items: flex-end;
+}
+
+.default-balance, .balance {
+    margin: 0;
+}
+
+.balance {
+    font-size: 12px;
 }

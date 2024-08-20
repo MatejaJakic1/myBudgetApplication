@@ -20,16 +20,15 @@ public class Transaction {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
+    @Column(name = "accountName")
+    private String accountName;
+
     @Column(name = "description")
     private String description;
 
-    @Column(name = "type")
-    private String type;
-
-    @Column(name = "account_name")
-    private String account_name;
-
     @Column(name = "amount")
-    private int amount;
+    private float amount;
 
+    @Column(name = "currency")
+    private String currency;
 }
