@@ -1,0 +1,21 @@
+<div class="app-transactions">
+    <div class="tr-all-accounts">
+        <div></div>
+            <div class="transactions">
+                @for (transaction of transactions; track $index) {
+                    <div class="transaction">
+                        <div>
+                            <div class="tr-name">{{transaction.name}}</div>
+                            <div class="tr-account">{{transaction.account}}</div>
+                        </div>
+                        <div class="amount-currency">
+                            <div class="tr-amount">{{transaction.amount}}</div>
+                            <div class="tr-currency">{{transaction.currency}}</div>
+                        </div>
+                    </div>
+                }
+            </div>    
+        <select><option>All accounts</option></select>
+    </div>
+    <app-first-footer></app-first-footer>
+</div>

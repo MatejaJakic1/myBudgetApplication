@@ -1,0 +1,22 @@
+
+.app-accounts {
+    height: 70vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+
+}
+.accounts {
+    width: 70%;
+    margin: 0 auto;
+}
+
+.account {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+
+.balance-currency, .name {
+    display: flex;
+    align-items: center;
+}

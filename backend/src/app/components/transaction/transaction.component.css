@@ -1,0 +1,55 @@
+.app-transactions {
+    height: 70vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 0;
+}
+
+.transactions-body {
+    padding: 0 10px;
+    display: grid;
+    grid-template-columns: 15% 70% 1fr;
+    overflow-y: auto;
+    overflow-x: hidden;
+}
+
+.transactions-body select {
+    height: fit-content;
+    margin-left: 20px;
+    width: fit-content;
+}
+
+.transaction {
+    display: flex;
+    padding: 0 10px;
+    margin: 0;
+    justify-content: space-between;
+    border-bottom: 2px solid #202233;
+    align-items: center;
+    
+}
+
+.transaction:nth-child(odd) {
+    background-color: #5F6290;
+}
+
+
+.account-name{
+    font-size: 14px;
+}
+.balances {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.default-balance, .balance {
+    margin: 0;
+}
+
+.balance {
+    font-size: 14px;
+    display: flex;
+    justify-content: flex-end;
+}
+

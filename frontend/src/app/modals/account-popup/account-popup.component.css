@@ -1,0 +1,34 @@
+.modal-header {
+    padding-left: 40px;
+}
+
+.modal-body {
+    padding: 0 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.input-style-1 {
+    display: flex;
+}
+
+.input-style-1 label {
+    width: 25%;
+}
+
+#name {
+    width: 75%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: right;
+    margin-top: 20px;
+}
+.buttons button {
+    margin-left: 5%;
+}

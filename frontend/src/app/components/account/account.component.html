@@ -1,0 +1,16 @@
+<div class="app-accounts">
+    <div class="accounts">
+        @for (account of accounts; track $index) {
+            <div class="account">
+                <div class="name">{{account.name}}</div>
+                <div class="balance-currency">
+                    <div class="euro-balance">{{account.euros}}</div>
+                    <div class="euro-currency">EUR</div>
+                    <div class="balance" *ngIf="account.currency !== 'EUR'">{{account.balance}}{{account.currency.toUpperCase()}}</div>
+                </div>
+            </div>
+        }
+        <app-account-popup [currencies]="currencies"></app-account-popup>
+    </div>
+    <app-first-footer [balance]="balanceSum"></app-first-footer>
+</div>

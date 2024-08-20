@@ -1,0 +1,33 @@
+.app-transactions {
+    height: 70vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    padding: 0;
+}
+
+.tr-all-accounts {
+    padding: 0 5px;
+    display: grid;
+    grid-template-columns: 15% 70% 1fr;
+}
+
+
+.transaction {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+}
+
+.amount-currency {
+    display: flex;
+    align-items: center;
+}
+
+.tr-all-accounts select {
+    height: fit-content;
+    margin-left: 20px;
+    width: fit-content;
+}
+
+
+

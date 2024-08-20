@@ -1,0 +1,17 @@
+header {
+    display: flex;
+    justify-content: space-between;
+    box-sizing: border-box;
+    padding: 15px 0;
+    width: 70%;
+    margin: 0 auto;
+}
+
+nav a {
+    padding-left: 15px;
+}
+
+hr {
+    border: 2px solid black;
+}
+

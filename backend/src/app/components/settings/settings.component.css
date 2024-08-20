@@ -1,0 +1,33 @@
+.app-settings {
+    height: 70vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+.settings {
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
+}
+.default-currency, .date, .delete-all {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid black;
+    min-height: 70px;
+    margin: 0;
+    padding-left: 10px;
+}
+
+.date div, .default-currency div{
+    margin: 0;
+}
+
+.delete-all {
+    background-color: #5F6290;
+}
+
+.delete-link:hover {
+    color: white;
+    cursor: pointer;
+}
+

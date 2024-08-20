@@ -1,0 +1,54 @@
+.modal-header {
+    padding-left: 40px;
+}
+
+.modal-body {
+    padding: 0 40px;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+}
+
+.input-style-1  {
+    display: flex;
+}
+
+.input-style-1 label {
+    width: 25%;
+}
+
+.input-style-1 input {
+    width: 75%;
+}
+
+select {
+    width: max-content;
+}
+
+label[for="account"]{
+    width: 50%;
+}
+
+label[for="amount"]{
+    width: 35%;
+}
+.input-style-2 {
+    display: grid;
+    grid-template-columns: 50% 5% 45%;
+    margin-top: 0;
+}
+
+.input-style-2 div input {
+    width: 65%;
+}
+
+.buttons {
+    display: flex;
+    justify-content: right;
+}
+.buttons button {
+    margin-left: 5%;
+}

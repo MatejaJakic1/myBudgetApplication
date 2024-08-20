@@ -1,0 +1,21 @@
+<div class="app-settings">
+    <div class="settings">
+        <div class="default-currency">
+            <div>Default currency</div>
+            <div>
+                <select [(ngModel)]="selectedCurrency" (ngModelChange)="onCurrencySelected($event)" class="btn btn-dark">
+                    <option *ngFor="let currency of currencies | keyvalue" [value]="currency.key">
+                        {{currency.value}} ({{currency.key.toUpperCase()}}) 
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="delete-all"><span class="delete-link" (click)="deleteAllData()">Delete all data</span></div>
+        <div class="date">
+            <div>Exchange rate updated</div>
+            <div *ngIf="this.exchange">{{this.exchange.date}}</div>
+        </div> 
+    </div>
+    <app-second-footer></app-second-footer>
+</div>
+

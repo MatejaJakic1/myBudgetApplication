@@ -1,0 +1,21 @@
+.app-settings {
+    height: 70vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+}
+.settings {
+    width: 70%;
+    height: auto;
+    margin: 0 auto;
+}
+.default, .exchange, .delete {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid black;
+    padding-bottom: 15px;
+}
+
+.exchange div, .default div{
+    margin: 0;
+}
+

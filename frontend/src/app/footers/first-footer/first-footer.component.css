@@ -1,0 +1,12 @@
+div {
+    display: flex;
+    width: 70%;
+    height: min-content;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0 auto;
+}
+
+hr {
+    border-width: 2px;
+}
