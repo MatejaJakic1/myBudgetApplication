@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter, OnInit, Input } from '@angular/core';
+import { Component, Output, EventEmitter, OnInit} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Account } from '../../models/Account';
 import { AccountService } from '../../services/account.service';
@@ -28,35 +28,34 @@ export class AccountPopupComponent implements OnInit{
     }
 
     currencies: Currency = {}
-    currency_key : string;
+    currencyKey : string;
     exchange : Exchange;
     
     account : Account;
     accounts : Account[] = [];
 
-    input_id : number;
-    input_name : string;
-    input_currency : string = "eur";
-    default_currency : string; 
-    input_balance : number;
-    default_balance : number;
+    inputId : number;
+    inputName : string;
+    inputCurrency : string = "eur";
+    defaultCurrency : string; 
+    inputBalance : number;
+    defaultBalance : number;
   
   
 
 
     createAccount() {
       this.currencyService.getCurrencyCode().subscribe(currencyCode => {
-        this.default_currency = currencyCode;
-        this.currencyService.getExchangeJSON(this.default_currency).subscribe(data => {
+        this.defaultCurrency = currencyCode;
+        this.currencyService.getExchangeJSON(this.defaultCurrency).subscribe(data => {
           this.exchange = data;
-          this.checkIfNameExists(this.input_name).subscribe(nameExists => {
-            if (this.input_balance != null && !nameExists) {
-              this.default_balance = this.input_balance / this.exchange[this.default_currency][this.input_currency];
-              this.account = { id: this.input_id, name: this.input_name, currency: this.input_currency, default_currency: this.default_currency, balance: this.input_balance, default_balance: this.default_balance };
+          this.checkIfNameExists(this.inputName).subscribe(nameExists => {
+            if (this.inputBalance != null && !nameExists) {
+              this.defaultBalance = this.inputBalance / this.exchange[this.defaultCurrency][this.inputCurrency];
+              this.account = { id: this.inputId, name: this.inputName, currency: this.inputCurrency, defaultCurrency: this.defaultCurrency, balance: this.inputBalance, defaultBalance: this.defaultBalance };
               this.saveAccount();
             } else {
               this.clearAllInputs();
-              console.log("Account can't be created because the username already exists");
             }
           });
         });
@@ -64,19 +63,19 @@ export class AccountPopupComponent implements OnInit{
     }
 
     saveAccount() {
-      this.accountService.createAccount(this.account).subscribe(data => {
+      this.accountService.createAccount(this.account).subscribe(() => {
         this.clearAllInputs();
         this.refreshService.triggerRefresh(); 
       });
     }
 
-    checkIfNameExists(account_name: string): Observable<boolean> {
+    checkIfNameExists(accountName: string): Observable<boolean> {
       return this.accountService.getAccountsList().pipe(
         map((accounts: Account[]) => {
           this.accounts = accounts;
           if (this.accounts.length > 0) {
             for (const account of this.accounts) {
-              if (account_name === account.name) {
+              if (accountName === account.name) {
                 return true;
               }
             }
@@ -91,13 +90,13 @@ export class AccountPopupComponent implements OnInit{
       this.currencyService.getCurrencies().subscribe(data => {this.currencies = data});
     }
 
-    private clearAllInputs(){
-      this.input_id = null;
-      this.input_name = '';
-      this.input_currency = 'eur';
-      this.input_balance = null;
+    clearAllInputs(){
+      this.inputId = null;
+      this.inputName = '';
+      this.inputCurrency = 'eur';
+      this.inputBalance = null;
       this.account = null;
-      this.default_balance = null;
+      this.defaultBalance = null;
     }
 
 

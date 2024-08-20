@@ -39,7 +39,7 @@
               id="description" 
               type="text" 
               name="description" 
-              [(ngModel)]="input_description" 
+              [(ngModel)]="inputDescription" 
               placeholder="Description of transaction..." 
               required>
           </div>
@@ -49,7 +49,7 @@
             <select 
               id="type" 
               name="type" 
-              [(ngModel)]="input_type">
+              [(ngModel)]="inputType">
                 <option value="expense">Expense</option>
                 <option value="deposit">Deposit</option>
             </select>
@@ -61,7 +61,7 @@
               <select 
                 id="account" 
                 name="account" 
-                [(ngModel)]="input_account" 
+                [(ngModel)]="inputAccount" 
                 required>
                   <option value="choose" disabled selected>Choose</option>
                   <option 
@@ -81,8 +81,8 @@
                 id="amount" 
                 type="text" 
                 name="amount" 
-                [(ngModel)]="input_balance" 
-                [placeholder]="default_placeholder" 
+                [(ngModel)]="inputBalance" 
+                [placeholder]="defaultPlaceholder" 
                 required>
             </div>
           </div>
@@ -91,6 +91,7 @@
             <button 
               type="button" 
               class="btn btn-secondary" 
+              (click)="clearAllInputs()"
               data-bs-dismiss="modal">
                 Cancel
             </button>

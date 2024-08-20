@@ -31,20 +31,20 @@ export class TransactionPopupComponent {
   accounts : Account[] = [];
   account : Account;
   transaction : Transaction;
-  account_transaction : AccountTransaction;
+  accountTransaction : AccountTransaction;
   
   exchange: Exchange;
-  exchange_trans: Exchange;
-  exchange_acc: Exchange;
+  exchangeTrans: Exchange;
+  exchangeAcc: Exchange;
 
-  input_id : number;
-  input_description: string;
-  input_type : string = "expense";
-  input_account: string = "choose";
-  default_placeholder: string = "0";
-  input_account_currency: string;
-  input_account_balance: number;
-  input_balance: number;
+  inputId : number;
+  inputDescription: string;
+  inputType : string = "expense";
+  inputAccount: string = "choose";
+  defaultPlaceholder: string = "0";
+  inputAccountCurrency: string;
+  inputAccountBalance: number;
+  inputBalance: number;
 
   currency : string;
 
@@ -53,21 +53,21 @@ export class TransactionPopupComponent {
     this.accountService.getAccountsList().subscribe(data => { 
       this.accounts = data; 
       const defaultCurrency = localStorage.getItem('currencyCode') || 'eur';
-      this.default_placeholder = "0 " + defaultCurrency.toUpperCase(); 
+      this.defaultPlaceholder = "0 " + defaultCurrency.toUpperCase(); 
     })
   }
 
   createTransaction(){
     this.getAccounts();
     this.checkType();
-    const account = this.accounts.find(acc => acc.name === this.input_account);
+    const account = this.accounts.find(acc => acc.name === this.inputAccount);
     this.currencyService.getCurrencyCode().subscribe(data => {this.currency = data;})
     this.currencyService.getExchangeJSON(this.currency).subscribe(data => {
-      this.exchange_trans = data; 
-      this.input_account_currency = account.currency;
-      this.input_account_balance = this.input_balance * this.exchange_trans[this.currency][this.input_account_currency];
-      this.input_account_balance = Math.round(this.input_account_balance * 100) / 100;
-      this.transaction = {id: this.input_id, description: this.input_description, account_name: this.input_account, default_currency: this.currency, default_balance: this.input_balance, balance: this.input_account_balance, currency: this.input_account_currency};
+      this.exchangeTrans = data; 
+      this.inputAccountCurrency = account.currency;
+      this.inputAccountBalance = this.inputBalance * this.exchangeTrans[this.currency][this.inputAccountCurrency];
+      this.inputAccountBalance = Math.round(this.inputAccountBalance * 100) / 100;
+      this.transaction = {id: this.inputId, description: this.inputDescription, accountName: this.inputAccount, defaultCurrency: this.currency, defaultAmount: this.inputBalance, amount: this.inputAccountBalance, currency: this.inputAccountCurrency};
       this.saveTransaction();
     })
   }
@@ -76,38 +76,37 @@ export class TransactionPopupComponent {
     this.transactionService.createTransaction(this.transaction).subscribe(data => { 
       this.updateAccount(this.transaction); 
       this.clearAllInputs();
-      this.refreshService.triggerRefresh(); 
     });
   }
 
   private checkType(){
-    if(this.input_type == "expense"){
-      this.input_balance = -this.input_balance;
+    if(this.inputType == "expense"){
+      this.inputBalance = -this.inputBalance;
     }
   }
 
   private updateAccount(transaction : Transaction){
-    const account = this.accounts.find(acc => acc.name === this.input_account);
-    this.account_transaction = { account: account, transaction: transaction };
-    this.currencyService.getExchangeJSON(this.account_transaction.transaction.currency.toLowerCase()).subscribe(data => {
+    const account = this.accounts.find(acc => acc.name === this.inputAccount);
+    this.accountTransaction = { account: account, transaction: transaction };
+    this.currencyService.getExchangeJSON(this.accountTransaction.transaction.currency.toLowerCase()).subscribe(data => {
     this.exchange = data;
 
-    this.account_transaction.account.balance += this.account_transaction.transaction.balance * this.exchange[this.account_transaction.transaction.currency][this.account_transaction.account.currency];
+    this.accountTransaction.account.balance += this.accountTransaction.transaction.amount * this.exchange[this.accountTransaction.transaction.currency][this.accountTransaction.account.currency];
 
-  this.currencyService.getExchangeJSON(this.account_transaction.account.default_currency.toLowerCase()).subscribe(data2 => {
-    this.exchange_acc = data2;
-    this.account_transaction.account.default_balance = this.account_transaction.account.balance / this.exchange_acc[this.account_transaction.account.default_currency][this.account_transaction.account.currency];
-    this.accountService.updateAfterTransaction(this.account_transaction).subscribe(data => {
-      console.log(data);
+  this.currencyService.getExchangeJSON(this.accountTransaction.account.defaultCurrency.toLowerCase()).subscribe(data2 => {
+    this.exchangeAcc = data2;
+    this.accountTransaction.account.defaultBalance = this.accountTransaction.account.balance / this.exchangeAcc[this.accountTransaction.account.defaultCurrency][this.accountTransaction.account.currency];
+    this.accountService.updateAfterTransaction(this.accountTransaction).subscribe(data => {
+      this.refreshService.triggerRefresh(); 
     });
   });
 });}
 
   clearAllInputs(){
-    this.input_id = null;
-    this.input_description = '';
-    this.input_type = 'expense';
-    this.input_id = null;
-    this.input_balance = null;
+    this.inputId = null;
+    this.inputDescription = '';
+    this.inputType = 'expense';
+    this.inputId = null;
+    this.inputBalance = null;
   }
 }

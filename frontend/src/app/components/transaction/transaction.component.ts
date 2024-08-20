@@ -28,13 +28,13 @@ export class TransactionComponent implements OnInit {
 
   transactions : Transaction[] = [];
   accounts : Account[] = [];
-  transactions_temp : Transaction[] = [];
+  transactionsTemp : Transaction[] = [];
 
 
   getTransactions(){
     this.transactionService.getTransactionsList().subscribe(data => { 
       this.transactions = data; 
-      this.transactions_temp = this.transactions;
+      this.transactionsTemp = this.transactions;
     })
   }
   
@@ -45,8 +45,8 @@ export class TransactionComponent implements OnInit {
   onAccountSelected(event: Event): void {
     this.transactions = [];
     const selectedAccountName = (event.target as HTMLSelectElement).value;
-    for(const transaction of this.transactions_temp){
-      if(transaction.account_name == selectedAccountName){
+    for(const transaction of this.transactionsTemp){
+      if(transaction.accountName == selectedAccountName){
         this.transactions.push(transaction);
       }
     }

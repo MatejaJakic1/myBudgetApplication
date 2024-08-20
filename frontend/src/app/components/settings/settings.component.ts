@@ -23,9 +23,9 @@ export class SettingsComponent implements OnInit{
   constructor(private currencyService: CurrencyService, private accountService: AccountService, private transactionService: TransactionService){}
 
   exchange : Exchange;
-  exchange_trans : Exchange;
+  exchangeTrans : Exchange;
   currencies : Currency;
-  selected_currency : string = 'eur';
+  selectedCurrency : string = 'eur';
   accounts: Account[];
   transactions: Transaction[];
   formattedDate : string;
@@ -34,7 +34,7 @@ export class SettingsComponent implements OnInit{
       this.currencyService.getCurrencies().subscribe(data => {
         this.currencies = data; 
         const storedCurrencyCode = localStorage.getItem('currencyCode') || 'eur';
-        this.selected_currency = storedCurrencyCode;
+        this.selectedCurrency = storedCurrencyCode;
         this.currencyService.getExchangeJSON(storedCurrencyCode).subscribe(data => {this.exchange = data;
           const date = new Date(this.exchange.date); 
           this.formatDate(date); 
@@ -42,10 +42,10 @@ export class SettingsComponent implements OnInit{
       });
   }
 
-  private loadExchange(currency_code: string) : void {
-      localStorage.setItem('currencyCode', currency_code);
-      this.updateDefaultCurrencyAccount(currency_code);
-      this.updateDefaultCurrencyTransaction(currency_code);
+  private loadExchange(currencyCode: string) : void {
+      localStorage.setItem('currencyCode', currencyCode);
+      this.updateDefaultCurrencyAccount(currencyCode);
+      this.updateDefaultCurrencyTransaction(currencyCode);
   }
 
   private formatDate(date: Date){
@@ -55,37 +55,37 @@ export class SettingsComponent implements OnInit{
     this.formattedDate =`${day}.${month}.${year}.`
   }
 
-  onCurrencySelected(selected_currency: string): void {
-    this.currencyService.getExchangeJSON(selected_currency).subscribe(data => {this.exchange = data; 
+  onCurrencySelected(selectedCurrency: string): void {
+    this.currencyService.getExchangeJSON(selectedCurrency).subscribe(data => {this.exchange = data; 
       const date = new Date(this.exchange.date); 
       this.formatDate(date); 
-      this.loadExchange(selected_currency);
+      this.loadExchange(selectedCurrency);
   });
   }
 
-  private updateDefaultCurrencyAccount(currency_code: string){
+  private updateDefaultCurrencyAccount(currencyCode: string){
     this.accountService.getAccountsList().subscribe(data => {
       this.accounts = data;
-      this.currencyService.setCurrencyCode(currency_code);
+      this.currencyService.setCurrencyCode(currencyCode);
       for(const account of this.accounts){
         this.currencyService.getExchangeJSON(account.currency).subscribe(data => {
         this.exchange = data;
-        account.default_balance = account.balance * this.exchange[account.currency][currency_code];
-        account.default_currency = currency_code;
+        account.defaultBalance = account.balance * this.exchange[account.currency][currencyCode];
+        account.defaultCurrency = currencyCode;
         this.accountService.updateDefaultBalance(account).subscribe();
         })
       }
     });
   }
   
-  private updateDefaultCurrencyTransaction(currency_code: string){
+  private updateDefaultCurrencyTransaction(currencyCode: string){
     this.transactionService.getTransactionsList().subscribe(data => {
       this.transactions = data;
         for(const transaction of this.transactions){
-          this.currencyService.getExchangeJSON(transaction.currency.toLowerCase()).subscribe(data => {
-            this.exchange_trans = data;
-            transaction.default_balance = transaction.balance * this.exchange_trans[transaction.currency][currency_code];
-            transaction.default_currency = currency_code;
+          this.currencyService.getExchangeJSON(transaction.currency).subscribe(data => {
+            this.exchangeTrans = data;
+            transaction.defaultAmount = transaction.amount * this.exchangeTrans[transaction.currency][currencyCode];
+            transaction.defaultCurrency = currencyCode;
             this.transactionService.updateDefaultTransaction(transaction).subscribe();
           })
         }

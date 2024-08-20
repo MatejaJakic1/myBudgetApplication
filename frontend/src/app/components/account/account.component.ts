@@ -11,7 +11,7 @@ import { CurrencyService } from '../../services/currency.service';
 import { Exchange } from '../../models/Exchange';
 import { RefreshService } from '../../services/refresh.service';
 import { NgFor } from '@angular/common';
-import { ChangeDetectorRef } from '@angular/core';
+
 
 @Component({
   selector: 'app-account',
@@ -22,17 +22,17 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class AccountComponent implements OnInit {
 
-  constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService, private cdr: ChangeDetectorRef){}
+  constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService){}
   
 
   accounts : Account[] = [];
   exchange : Exchange;
-  selected_currency : string;
+  selectedCurrency : string;
 
   ngOnInit(): void {
-    this.refreshService.refresh$.subscribe(() => { this.getAccounts(); });
+    this.refreshService.refresh$.subscribe(() => { this.getAccounts();});
     this.currencyService.getCurrencyCode().subscribe(currencyCode => {
-      this.selected_currency = currencyCode; 
+      this.selectedCurrency = currencyCode; 
       this.getAccounts()
     });
   }

@@ -16,7 +16,7 @@ export class FirstFooterComponent implements OnInit{
   constructor(private balanceService : BalanceService, private currencyService: CurrencyService){}
 
   balance : number;
-  default_currency: string;
+  defaultCurrency: string;
 
   ngOnInit(): void {
     this.getCurrencyAndBalance();
@@ -24,7 +24,7 @@ export class FirstFooterComponent implements OnInit{
  
   private getCurrencyAndBalance() {
     this.currencyService.getCurrencyCode().subscribe(data => {
-      this.default_currency = data;
+      this.defaultCurrency = data;
       this.getBalanceSum();
     });
   }

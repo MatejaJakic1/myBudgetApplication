@@ -20,18 +20,18 @@ public class Account {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @Column(name = "account_name")
+    @Column(name = "accountName")
     private String name;
 
-    @Column(name = "account_currency")
+    @Column(name = "accountCurrency")
     private String currency;
 
-    @Column(name = "default_currency")
-    private String default_currency;
+    @Column(name = "defaultCurrency")
+    private String defaultCurrency;
 
     @Column(name = "balance")
     private float balance;
 
-    @Column(name = "default_balance")
-    private float default_balance;
+    @Column(name = "defaultBalance")
+    private float defaultBalance;
 }

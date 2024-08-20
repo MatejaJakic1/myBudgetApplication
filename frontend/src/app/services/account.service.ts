@@ -10,33 +10,33 @@ import { switchMap } from 'rxjs';
 })
 export class AccountService {
 
-  private base_url = "http://localhost:8080/api/v1/accounts";
-  private create_url = "http://localhost:8080/api/v1/createaccount";
-  private update_url = "http://localhost:8080/api/v1/updateaccounts"
-  private delete_url = "http://localhost:8080/api/v1/deleteaccounts"
-  private transaction_url = "http://localhost:8080/api/v1/updatetransaction"
+  private baseUrl = "http://localhost:8080/api/v1/accounts";
+  private createUrl = "http://localhost:8080/api/v1/createaccount";
+  private updateUrl = "http://localhost:8080/api/v1/updateaccounts"
+  private deleteUrl = "http://localhost:8080/api/v1/deleteaccounts"
+  private transactionUrl = "http://localhost:8080/api/v1/updatetransaction"
 
 
   constructor(private httpClient: HttpClient) { }
 
   createAccount(account: Account): Observable<Object>{
-    return this.httpClient.post(`${this.create_url}`, account);
+    return this.httpClient.post(`${this.createUrl}`, account);
   }
 
   getAccountsList(): Observable<Account[]>{
-    return this.httpClient.get<Account[]>(`${this.base_url}`);
+    return this.httpClient.get<Account[]>(`${this.baseUrl}`);
   }
   
   deleteAccounts(): Observable<Object>{
-    return this.httpClient.delete(`${this.delete_url}`)
+    return this.httpClient.delete(`${this.deleteUrl}`)
   }
 
   updateAfterTransaction(accountTransaction: AccountTransaction): Observable<object>{
-    return this.httpClient.put(`${this.transaction_url}`, accountTransaction);
+    return this.httpClient.put(`${this.transactionUrl}`, accountTransaction);
   }
 
   updateDefaultBalance(account: Account): Observable<Object>{
-    return this.httpClient.put(`${this.update_url}`, account)
+    return this.httpClient.put(`${this.updateUrl}`, account)
   }
 
 }

@@ -21,7 +21,7 @@ export class BalanceService {
       map((accounts: Account[]) => {
         let balance = 0;
         for (const account of accounts) {
-          balance += account.default_balance;
+          balance += account.defaultBalance;
         }
         return (Math.round(balance * 100) / 100);
       }));

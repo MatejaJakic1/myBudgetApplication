@@ -5,14 +5,14 @@
             <div class="transaction" *ngFor="let transaction of transactions; let i = index;">
                 <div>
                     <div class="description">{{ transaction.description }}</div>
-                    <div class="account-name">{{ transaction.account_name }}</div>
+                    <div class="account-name">{{ transaction.accountName }}</div>
                 </div>
                 <div class="balances">
                     <div class="default-balance">
-                        {{ transaction.default_balance }} {{ transaction.default_currency.toUpperCase() }}
+                        {{ transaction.defaultAmount }} {{ transaction.defaultCurrency.toUpperCase() }}
                     </div>
-                    <div class="balance" *ngIf="transaction.default_currency !== transaction.currency">
-                        {{ transaction.balance }} {{ transaction.currency.toUpperCase() }}
+                    <div class="balance" *ngIf="transaction.defaultCurrency !== transaction.currency">
+                        {{ transaction.amount }} {{ transaction.currency.toUpperCase() }}
                     </div>
                 </div>
             </div>

@@ -2,7 +2,7 @@ export class Account {
     id: number;
     name: string;
     currency: string;
-    default_currency: string;
+    defaultCurrency: string;
     balance: number;
-    default_balance: number;
+    defaultBalance: number;
 }

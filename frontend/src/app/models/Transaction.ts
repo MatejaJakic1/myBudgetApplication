@@ -1,9 +1,9 @@
 export class Transaction {
     id: number;
-    account_name: string;
+    accountName: string;
     description: string;
-    default_currency: string;
-    default_balance: number
-    balance: number;
+    defaultCurrency: string;
+    defaultAmount: number;
+    amount: number;
     currency: string;
 }

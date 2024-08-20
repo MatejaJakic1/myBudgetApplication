@@ -26,8 +26,8 @@ public class TransactionService {
         Optional<Transaction> optionalOldTransaction = transactionRepository.findById(transaction.getId());
         if (optionalOldTransaction.isPresent()) {
             Transaction oldTransaction = optionalOldTransaction.get();
-            oldTransaction.setDefault_currency(transaction.getDefault_currency());
-            oldTransaction.setDefault_balance(transaction.getDefault_balance());
+            oldTransaction.setDefaultCurrency(transaction.getDefaultCurrency());
+            oldTransaction.setDefaultAmount(transaction.getDefaultAmount());
             transactionRepository.save(oldTransaction);
             return oldTransaction;
         }  

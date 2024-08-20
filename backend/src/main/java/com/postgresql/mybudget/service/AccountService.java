@@ -36,8 +36,8 @@ public class AccountService {
         Optional<Account> optionalOldAccount = accountRepository.findById(account.getId());
         if (optionalOldAccount.isPresent()) {
             Account oldAccount = optionalOldAccount.get();
-            oldAccount.setDefault_currency(account.getDefault_currency());
-            oldAccount.setDefault_balance(account.getDefault_balance());
+            oldAccount.setDefaultCurrency(account.getDefaultCurrency());
+            oldAccount.setDefaultBalance(account.getDefaultBalance());
             accountRepository.save(oldAccount);
             return oldAccount;
         }  
