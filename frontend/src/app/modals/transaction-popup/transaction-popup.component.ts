@@ -101,7 +101,6 @@ export class TransactionPopupComponent {
 
   private updateAccount(transaction: Transaction) {
     const account = this.accounts.find(acc => acc.name === this.inputAccount);
-    console.log(account);
     this.accountTransaction = { account: account, transaction: transaction };
     this.currencyService.getExchangeJSON(this.accountTransaction.transaction.currency)
         .subscribe(data => {
@@ -116,7 +115,7 @@ export class TransactionPopupComponent {
                     this.accountTransaction.account.defaultBalance = 
                         Math.round((this.accountTransaction.account.balance / this.exchangeAcc[this.accountTransaction.account.defaultCurrency][this.accountTransaction.account.currency]) * 100) / 100;
                     this.accountService.updateAfterTransaction(this.accountTransaction)
-                        .subscribe(data => {
+                        .subscribe(() => {
                             this.refreshService.triggerRefresh(); 
                         });
                 });
