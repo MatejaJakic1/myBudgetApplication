@@ -1,4 +1,4 @@
-INSERT INTO accounts (account_name, balance, account_currency, default_balance, default_currency) VALUES
+INSERT INTO accounts (name, balance, currency, default_balance, default_currency) VALUES
 ('John Doe', 1200.50, 'eur', 1200.50, 'eur'),
 ('Jane Smith', 875.20, 'usd', 786.42, 'eur'),
 ('Michael Brown', 320.75, 'eur', 320.75, 'eur'),

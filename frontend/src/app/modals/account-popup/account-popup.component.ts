@@ -19,9 +19,11 @@ import { map, Observable } from 'rxjs';
 })
 export class AccountPopupComponent implements OnInit{
 
-    constructor(private accountService: AccountService, private currencyService: CurrencyService, private refreshService: RefreshService){}
-
-    @Output() modalClosed: EventEmitter<string> = new EventEmitter<string>();
+    constructor(
+      private accountService: AccountService,
+      private currencyService: CurrencyService, 
+      private refreshService: RefreshService
+    ){}
 
     ngOnInit(): void {
       this.getCurrrencies();
@@ -52,7 +54,14 @@ export class AccountPopupComponent implements OnInit{
           this.checkIfNameExists(this.inputName).subscribe(nameExists => {
             if (this.inputBalance != null && !nameExists) {
               this.defaultBalance = this.inputBalance / this.exchange[this.defaultCurrency][this.inputCurrency];
-              this.account = { id: this.inputId, name: this.inputName, currency: this.inputCurrency, defaultCurrency: this.defaultCurrency, balance: this.inputBalance, defaultBalance: this.defaultBalance };
+              this.account = { 
+                id: this.inputId, 
+                name: this.inputName, 
+                currency: this.inputCurrency, 
+                defaultCurrency: this.defaultCurrency, 
+                balance: this.inputBalance, 
+                defaultBalance: this.defaultBalance 
+              };
               this.saveAccount();
             } else {
               this.clearAllInputs();

@@ -9,10 +9,10 @@
                 </div>
                 <div class="balances">
                     <div class="default-balance">
-                        {{ transaction.defaultAmount }} {{ transaction.defaultCurrency.toUpperCase() }}
+                        {{ transaction.defaultAmount | number:'1.2-2'}} {{ transaction.defaultCurrency.toUpperCase() }}
                     </div>
                     <div class="balance" *ngIf="transaction.defaultCurrency !== transaction.currency">
-                        {{ transaction.amount }} {{ transaction.currency.toUpperCase() }}
+                        {{ transaction.amount | number:'1.2-2' }} {{ transaction.currency.toUpperCase() }}
                     </div>
                 </div>
             </div>

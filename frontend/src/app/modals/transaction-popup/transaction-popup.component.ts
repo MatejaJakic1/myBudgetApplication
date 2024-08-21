@@ -21,10 +21,16 @@ import { RefreshService } from '../../services/refresh.service';
 })
 export class TransactionPopupComponent {
 
-  constructor(private accountService: AccountService, private transactionService : TransactionService, private currencyService : CurrencyService, private refreshService : RefreshService){}
+  constructor(
+    private accountService: AccountService, 
+    private transactionService : TransactionService, 
+    private currencyService : CurrencyService, 
+    private refreshService : RefreshService
+  ){}
 
     ngOnInit(): void {
       this.getAccounts();
+      this.refreshService.refresh$.subscribe(() => { this.getAccounts();});
     }
 
 
@@ -44,7 +50,7 @@ export class TransactionPopupComponent {
   defaultPlaceholder: string = "0";
   inputAccountCurrency: string;
   inputAccountBalance: number;
-  inputBalance: number;
+  inputAmount: number;
 
   currency : string;
 
@@ -65,9 +71,17 @@ export class TransactionPopupComponent {
     this.currencyService.getExchangeJSON(this.currency).subscribe(data => {
       this.exchangeTrans = data; 
       this.inputAccountCurrency = account.currency;
-      this.inputAccountBalance = this.inputBalance * this.exchangeTrans[this.currency][this.inputAccountCurrency];
+      this.inputAccountBalance = this.inputAmount * this.exchangeTrans[this.currency][this.inputAccountCurrency];
       this.inputAccountBalance = Math.round(this.inputAccountBalance * 100) / 100;
-      this.transaction = {id: this.inputId, description: this.inputDescription, accountName: this.inputAccount, defaultCurrency: this.currency, defaultAmount: this.inputBalance, amount: this.inputAccountBalance, currency: this.inputAccountCurrency};
+      this.transaction = {
+        id: this.inputId, 
+        description: this.inputDescription, 
+        accountName: this.inputAccount, 
+        defaultCurrency: this.currency, 
+        defaultAmount: this.inputAmount, 
+        amount: this.inputAccountBalance, 
+        currency: this.inputAccountCurrency
+      };
       this.saveTransaction();
     })
   }
@@ -81,32 +95,39 @@ export class TransactionPopupComponent {
 
   private checkType(){
     if(this.inputType == "expense"){
-      this.inputBalance = -this.inputBalance;
+      this.inputAmount = -this.inputAmount;
     }
   }
 
-  private updateAccount(transaction : Transaction){
+  private updateAccount(transaction: Transaction) {
     const account = this.accounts.find(acc => acc.name === this.inputAccount);
+    console.log(account);
     this.accountTransaction = { account: account, transaction: transaction };
-    this.currencyService.getExchangeJSON(this.accountTransaction.transaction.currency.toLowerCase()).subscribe(data => {
-    this.exchange = data;
-
-    this.accountTransaction.account.balance += this.accountTransaction.transaction.amount * this.exchange[this.accountTransaction.transaction.currency][this.accountTransaction.account.currency];
-
-  this.currencyService.getExchangeJSON(this.accountTransaction.account.defaultCurrency.toLowerCase()).subscribe(data2 => {
-    this.exchangeAcc = data2;
-    this.accountTransaction.account.defaultBalance = this.accountTransaction.account.balance / this.exchangeAcc[this.accountTransaction.account.defaultCurrency][this.accountTransaction.account.currency];
-    this.accountService.updateAfterTransaction(this.accountTransaction).subscribe(data => {
-      this.refreshService.triggerRefresh(); 
-    });
-  });
-});}
+    this.currencyService.getExchangeJSON(this.accountTransaction.transaction.currency)
+        .subscribe(data => {
+            this.exchange = data;
+            this.accountTransaction.account.balance += 
+                this.accountTransaction.transaction.amount * 
+                this.exchange[this.accountTransaction.transaction.currency][this.accountTransaction.account.currency];
+            this.accountTransaction.account.balance = Math.round(this.accountTransaction.account.balance * 100) / 100;
+            this.currencyService.getExchangeJSON(this.accountTransaction.account.defaultCurrency)
+                .subscribe(data2 => {
+                    this.exchangeAcc = data2;
+                    this.accountTransaction.account.defaultBalance = 
+                        Math.round((this.accountTransaction.account.balance / this.exchangeAcc[this.accountTransaction.account.defaultCurrency][this.accountTransaction.account.currency]) * 100) / 100;
+                    this.accountService.updateAfterTransaction(this.accountTransaction)
+                        .subscribe(data => {
+                            this.refreshService.triggerRefresh(); 
+                        });
+                });
+        });
+}
 
   clearAllInputs(){
     this.inputId = null;
     this.inputDescription = '';
     this.inputType = 'expense';
     this.inputId = null;
-    this.inputBalance = null;
+    this.inputAmount = null;
   }
 }

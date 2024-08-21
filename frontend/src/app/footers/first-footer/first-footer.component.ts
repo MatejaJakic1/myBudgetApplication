@@ -3,6 +3,7 @@ import { TransactionPopupComponent } from "../../modals/transaction-popup/transa
 import { NgIf } from '@angular/common';
 import { BalanceService } from '../../services/balance.service';
 import { CurrencyService } from '../../services/currency.service';
+import { RefreshService } from '../../services/refresh.service';
 
 @Component({
   selector: 'app-first-footer',
@@ -13,13 +14,16 @@ import { CurrencyService } from '../../services/currency.service';
 })
 export class FirstFooterComponent implements OnInit{
 
-  constructor(private balanceService : BalanceService, private currencyService: CurrencyService){}
+  constructor(private balanceService : BalanceService, private currencyService: CurrencyService, private refreshService: RefreshService){}
 
   balance : number;
   defaultCurrency: string;
 
   ngOnInit(): void {
     this.getCurrencyAndBalance();
+    this.refreshService.refresh$.subscribe(() => {
+      this.getCurrencyAndBalance();
+    });
   }
  
   private getCurrencyAndBalance() {

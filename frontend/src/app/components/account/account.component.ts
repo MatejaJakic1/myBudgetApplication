@@ -38,6 +38,8 @@ export class AccountComponent implements OnInit {
   }
 
 
+
+
   private getAccounts(){
     this.accountService.getAccountsList().subscribe(data => {
       this.accounts = data;

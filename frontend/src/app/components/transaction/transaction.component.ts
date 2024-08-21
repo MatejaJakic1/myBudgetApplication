@@ -7,17 +7,19 @@ import { AccountService } from '../../services/account.service';
 import { NgFor } from '@angular/common';
 import { RefreshService } from '../../services/refresh.service';
 import { NgIf } from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-transaction',
   standalone: true,
-  imports: [FirstFooterComponent, NgFor, NgIf],
+  imports: [FirstFooterComponent, NgFor, NgIf, CommonModule],
   templateUrl: './transaction.component.html',
   styleUrl: './transaction.component.css'
 })
 export class TransactionComponent implements OnInit {
 
   constructor(private transactionService: TransactionService, private accountService: AccountService, private refreshService : RefreshService){}
+  
   ngOnInit(): void {
     this.refreshService.refresh$.subscribe(() => {
       this.getTransactions();
