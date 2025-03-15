@@ -1,5 +1,13 @@
 # my-budget
-A software solution for tracking finances created using Angular framework and Spring Boot 
+This is a full-stack single-page application (SPA) that allows users to create and manage accounts, track transactions, and manage currency preferences. The app is built with **Spring Boot** for the backend and **Angular** for the frontend.
+
+## Features
+
+- **User Authentication & Account Creation**: Users can create an account and log in to the application.
+- **Account Management**: Each user can create multiple accounts, and each account is associated with a specific currency.
+- **Transaction Management**: Users can add transactions, specifying whether the transaction is a deposit or an expense. Transactions are linked to specific accounts.
+- **Currency Management**: The user can set a default currency for their accounts on the settings page.
+- **Responsive UI**: The application is designed to be mobile and desktop friendly.
 
 --Steps for starting the app--
 
