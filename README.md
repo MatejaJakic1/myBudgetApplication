@@ -32,10 +32,10 @@ Node.js(LTS), Angular
 
 ---------------------------------------------------------------------
 
--in terminal: -use command git clone https://github.com/MatejaJakic1/myBudgetApplication.git
-              -navigate to frontend folder and run nmp install 
--open cloned folder in VS Code
--run MybudgetApplication.java
--in terminal navigate to frontend folder and write ng serve --open
+-in terminal: -  use command git clone https://github.com/MatejaJakic1/myBudgetApplication.git
+              -  navigate to frontend folder and run nmp install 
+-  open cloned folder in VS Code
+-  run MybudgetApplication.java
+-  in terminal navigate to frontend folder and write ng serve --open
 
 With that, this application should be up and running!
