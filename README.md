@@ -8,16 +8,16 @@ This is a full-stack single-page application (SPA) that allows users to create a
 - **Currency Management**: The user can set a default currency on the settings page.
 - **Responsive UI**: The application is designed to be mobile and desktop friendly.
 
---Steps for starting the app--
+## Steps for starting the app
 
-Prerequisites:
+# Prerequisites:
 Git
 VS Code - Installed the coding pack for Java and Spring boot extension 
 Node.js(LTS), Angular
 
 ---------------------------------------------------------------------
 
-Database setup:
+# Database setup:
 -Install Postgresql (Windows x86/64 version 16.4):
     -in the setup set password as root, and port as 5432
     -in Stack builder choose PostgreSQL 16 on port 5432
