@@ -3,10 +3,9 @@ This is a full-stack single-page application (SPA) that allows users to create a
 
 ## Features
 
-- **User Authentication & Account Creation**: Users can create an account and log in to the application.
 - **Account Management**: Each user can create multiple accounts, and each account is associated with a specific currency.
 - **Transaction Management**: Users can add transactions, specifying whether the transaction is a deposit or an expense. Transactions are linked to specific accounts.
-- **Currency Management**: The user can set a default currency for their accounts on the settings page.
+- **Currency Management**: The user can set a default currency on the settings page.
 - **Responsive UI**: The application is designed to be mobile and desktop friendly.
 
 --Steps for starting the app--
